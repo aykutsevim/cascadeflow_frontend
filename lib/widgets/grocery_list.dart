@@ -26,8 +26,7 @@ class _GroceryListState extends State<GroceryList> {
   }
 
   Future<List<GroceryItem>> _loadItems() async {
-    final url = Uri.https(
-        'flutter-prep-default-rtdb.firebaseio.com', 'shopping-list.json');
+    final url = Uri.https('localhost:3001', 'WeatherForecast');
 
     final response = await http.get(url);
 

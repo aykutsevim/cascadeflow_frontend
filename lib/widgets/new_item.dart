@@ -29,20 +29,19 @@ class _NewItemState extends State<NewItem> {
       setState(() {
         _isSending = true;
       });
-      final url = Uri.https(
-          'flutter-prep-default-rtdb.firebaseio.com', 'shopping-list.json');
-      final response = await http.post(
+      final url = Uri.https('localhost:3000', 'WeatherForecast');
+      final response = await http.get(
         url,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: json.encode(
+        /*body: json.encode(
           {
             'name': _enteredName,
             'quantity': _enteredQuantity,
             'category': _selectedCategory.title,
           },
-        ),
+        ),*/
       );
 
       final Map<String, dynamic> resData = json.decode(response.body);
