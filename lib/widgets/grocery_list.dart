@@ -38,9 +38,9 @@ class _GroceryListState extends State<GroceryList> {
       return [];
     }
 
-    final Map<String, dynamic> listData = json.decode(response.body);
+    final List<dynamic> listData = json.decode(response.body);
     final List<GroceryItem> loadedItems = [];
-    for (final item in listData.entries) {
+    for (final item in listData) {
       final category = categories.entries
           .firstWhere(
               (catItem) => catItem.value.title == item.value['category'])
