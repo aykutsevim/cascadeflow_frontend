@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shopping_list/data/categories.dart';
 
 import 'package:shopping_list/models/grocery_item.dart';
+import 'package:shopping_list/models/weather_item.dart';
 import 'package:shopping_list/widgets/new_item.dart';
 
 class GroceryList extends StatefulWidget {
@@ -15,8 +16,8 @@ class GroceryList extends StatefulWidget {
 }
 
 class _GroceryListState extends State<GroceryList> {
-  List<GroceryItem> _groceryItems = [];
-  late Future<List<GroceryItem>> _loadedItems;
+  List<WeatherItem> _weatherItems = [];
+  late Future<List<WeatherItem>> _loadedItems;
   String? _error;
 
   @override
@@ -25,7 +26,7 @@ class _GroceryListState extends State<GroceryList> {
     _loadedItems = _loadItems();
   }
 
-  Future<List<GroceryItem>> _loadItems() async {
+  Future<List<WeatherItem>> _loadItems() async {
     final url = Uri.https('localhost:3001', 'WeatherForecast');
 
     final response = await http.get(url);
@@ -39,18 +40,18 @@ class _GroceryListState extends State<GroceryList> {
     }
 
     final List<dynamic> listData = json.decode(response.body);
-    final List<GroceryItem> loadedItems = [];
+    final List<WeatherItem> loadedItems = [];
     for (final item in listData) {
-      final category = categories.entries
+      /*final category = categories.entries
           .firstWhere(
               (catItem) => catItem.value.title == item.value['category'])
-          .value;
+          .value;*/
       loadedItems.add(
-        GroceryItem(
-          id: item.key,
-          name: item.value['name'],
-          quantity: item.value['quantity'],
-          category: category,
+        WeatherItem(
+          date: item['date'],
+          temperatureC: item['temperatureC'],
+          temperatureF: item['temperatureF'],
+          summary: item['summary'],
         ),
       );
     }
@@ -58,7 +59,7 @@ class _GroceryListState extends State<GroceryList> {
   }
 
   void _addItem() async {
-    final newItem = await Navigator.of(context).push<GroceryItem>(
+    final newItem = await Navigator.of(context).push<WeatherItem>(
       MaterialPageRoute(
         builder: (ctx) => const NewItem(),
       ),
@@ -69,25 +70,25 @@ class _GroceryListState extends State<GroceryList> {
     }
 
     setState(() {
-      _groceryItems.add(newItem);
+      _weatherItems.add(newItem);
     });
   }
 
-  void _removeItem(GroceryItem item) async {
-    final index = _groceryItems.indexOf(item);
+  void _removeItem(WeatherItem item) async {
+    final index = _weatherItems.indexOf(item);
     setState(() {
-      _groceryItems.remove(item);
+      _weatherItems.remove(item);
     });
 
     final url = Uri.https('flutter-prep-default-rtdb.firebaseio.com',
-        'shopping-list/${item.id}.json');
+        'shopping-list/${item.date}.json');
 
     final response = await http.delete(url);
 
     if (response.statusCode >= 400) {
       // Optional: Show error message
       setState(() {
-        _groceryItems.insert(index, item);
+        _weatherItems.insert(index, item);
       });
     }
   }
@@ -129,16 +130,16 @@ class _GroceryListState extends State<GroceryList> {
               onDismissed: (direction) {
                 _removeItem(snapshot.data![index]);
               },
-              key: ValueKey(snapshot.data![index].id),
+              key: ValueKey(snapshot.data![index].date),
               child: ListTile(
-                title: Text(snapshot.data![index].name),
+                title: Text(snapshot.data![index].summary),
                 leading: Container(
                   width: 24,
                   height: 24,
-                  color: snapshot.data![index].category.color,
+                  color: Colors.blue,
                 ),
                 trailing: Text(
-                  snapshot.data![index].quantity.toString(),
+                  snapshot.data![index].temperatureC.toString(),
                 ),
               ),
             ),
