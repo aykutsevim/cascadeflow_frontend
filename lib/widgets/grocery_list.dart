@@ -16,14 +16,14 @@ class GroceryList extends StatefulWidget {
 }
 
 class _GroceryListState extends State<GroceryList> {
-  List<WeatherItem> _weatherItems = [];
-  late Future<List<WeatherItem>> _loadedItems;
+  //List<WeatherItem> _weatherItems = [];
+  List<WeatherItem> _loadedItems = [];
   String? _error;
 
   @override
   void initState() {
     super.initState();
-    _loadedItems = _loadItems();
+    _loadedItems = await _loadItems();
   }
 
   Future<List<WeatherItem>> _loadItems() async {
@@ -48,6 +48,7 @@ class _GroceryListState extends State<GroceryList> {
           .value;*/
       loadedItems.add(
         WeatherItem(
+          id : item['id'],
           date: item['date'],
           temperatureC: item['temperatureC'],
           temperatureF: item['temperatureF'],
@@ -74,12 +75,11 @@ class _GroceryListState extends State<GroceryList> {
     });
   }
 
-  void _removeItem(WeatherItem item) async {
-    final index = _weatherItems.indexOf(item);
+  void _removeItem(int index) async {
     setState(() {
-      _weatherItems.remove(item);
+      _loadedItems.removeAt(index);
     });
-
+/*
     final url = Uri.https('flutter-prep-default-rtdb.firebaseio.com',
         'shopping-list/${item.date}.json');
 
@@ -90,7 +90,7 @@ class _GroceryListState extends State<GroceryList> {
       setState(() {
         _weatherItems.insert(index, item);
       });
-    }
+    }*/
   }
 
   @override
@@ -130,9 +130,9 @@ class _GroceryListState extends State<GroceryList> {
               onDismissed: (direction) {
                 _removeItem(snapshot.data![index]);
               },
-              key: ValueKey(snapshot.data![index].date),
+              key: ValueKey(snapshot.data![index].id),
               child: ListTile(
-                title: Text(snapshot.data![index].summary),
+                title: Text(snapshot.data![index].date + snapshot.data![index].summary),
                 leading: Container(
                   width: 24,
                   height: 24,
