@@ -16,47 +16,62 @@ class GroceryList extends StatefulWidget {
 }
 
 class _GroceryListState extends State<GroceryList> {
-  //List<WeatherItem> _weatherItems = [];
-  List<WeatherItem> _loadedItems = [];
+  List<WeatherItem> _weatherItems = [];
+  var _isLoading = true;
   String? _error;
 
   @override
   void initState() {
     super.initState();
-    _loadedItems = await _loadItems();
+
+    _loadItems();
   }
 
-  Future<List<WeatherItem>> _loadItems() async {
+  void _loadItems() async {
     final url = Uri.https('localhost:3001', 'WeatherForecast');
 
-    final response = await http.get(url);
+    try {
+      final response = await http.get(url);
 
-    if (response.statusCode >= 400) {
-      throw Exception('Failed to fetch grocery items. Please try again later.');
-    }
+      if (response.statusCode >= 400) {
+        setState(() {
+          _error = 'Failed to fetch data. Please try again later.';
+        });
+      }
 
-    if (response.body == 'null') {
-      return [];
-    }
+      if (response.body == 'null') {
+        setState(() {
+          _isLoading = false;
+        });
+        return;
+      }
 
-    final List<dynamic> listData = json.decode(response.body);
-    final List<WeatherItem> loadedItems = [];
-    for (final item in listData) {
-      /*final category = categories.entries
-          .firstWhere(
-              (catItem) => catItem.value.title == item.value['category'])
-          .value;*/
-      loadedItems.add(
-        WeatherItem(
-          id : item['id'],
-          date: item['date'],
-          temperatureC: item['temperatureC'],
-          temperatureF: item['temperatureF'],
-          summary: item['summary'],
-        ),
-      );
+      final List<dynamic> listData = json.decode(response.body);
+      final List<WeatherItem> loadedItems = [];
+      for (final item in listData) {
+        /*final category = categories.entries
+            .firstWhere(
+                (catItem) => catItem.value.title == item.value['category'])
+            .value;*/
+        loadedItems.add(
+          WeatherItem(
+            id : item['id'],
+            date: item['date'],
+            temperatureC: item['temperatureC'],
+            temperatureF: item['temperatureF'],
+            summary: item['summary'],
+          ),
+        );
+      }
+      setState(() {
+        _weatherItems = loadedItems;
+        _isLoading = false;
+      });
+    } catch (error) {
+      setState(() {
+        _error = 'Something went wrong! Please try again later.';
+      });
     }
-    return loadedItems;
   }
 
   void _addItem() async {
@@ -75,13 +90,14 @@ class _GroceryListState extends State<GroceryList> {
     });
   }
 
-  void _removeItem(int index) async {
+  void _removeItem(WeatherItem item) async {
+    final index = _weatherItems.indexOf(item);
     setState(() {
-      _loadedItems.removeAt(index);
+      _weatherItems.remove(item);
     });
 /*
     final url = Uri.https('flutter-prep-default-rtdb.firebaseio.com',
-        'shopping-list/${item.date}.json');
+        'shopping-list/${item.id}.json');
 
     final response = await http.delete(url);
 
@@ -95,9 +111,40 @@ class _GroceryListState extends State<GroceryList> {
 
   @override
   Widget build(BuildContext context) {
+    Widget content = const Center(child: Text('No items added yet.'));
+
+    if (_isLoading) {
+      content = const Center(child: CircularProgressIndicator());
+    }
+
+    if (_weatherItems.isNotEmpty) {
+      content = ListView.builder(
+        itemCount: _weatherItems.length,
+        itemBuilder: (ctx, index) => Dismissible(
+          onDismissed: (direction) {
+            _removeItem(_weatherItems[index]);
+          },
+          key: ValueKey(_weatherItems[index].id),
+          child: ListTile(
+            title: Text(_weatherItems[index].date),
+            leading: Text(
+              _weatherItems[index].summary,
+            ),
+            trailing: Text(
+              _weatherItems[index].temperatureC.toString(),
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (_error != null) {
+      content = Center(child: Text(_error!));
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Groceries'),
+        title: const Text('Weather'),
         actions: [
           IconButton(
             onPressed: _addItem,
@@ -105,47 +152,7 @@ class _GroceryListState extends State<GroceryList> {
           ),
         ],
       ),
-      body: FutureBuilder(
-        future: _loadedItems,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                snapshot.error.toString(),
-              ),
-            );
-          }
-
-          if (snapshot.data!.isEmpty) {
-            return const Center(child: Text('No items added yet.'));
-          }
-
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (ctx, index) => Dismissible(
-              onDismissed: (direction) {
-                _removeItem(snapshot.data![index]);
-              },
-              key: ValueKey(snapshot.data![index].id),
-              child: ListTile(
-                title: Text(snapshot.data![index].date + snapshot.data![index].summary),
-                leading: Container(
-                  width: 24,
-                  height: 24,
-                  color: Colors.blue,
-                ),
-                trailing: Text(
-                  snapshot.data![index].temperatureC.toString(),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+      body: content,
     );
   }
 }
