@@ -1,3 +1,5 @@
 Disable CORS:
 https://stackoverflow.com/questions/65630743/how-to-solve-flutter-web-api-cors-error-only-with-dart-code
 
+Running build runner:
+dart run build_runner build --delete-conflicting-outputs
