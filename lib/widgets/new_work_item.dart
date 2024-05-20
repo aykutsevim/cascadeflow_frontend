@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shopping_list/data/categories.dart';
 import 'package:shopping_list/models/category.dart';
 import 'package:shopping_list/models/grocery_item.dart';
-
+/*
 class NewWorkItem extends StatefulWidget {
   const NewWorkItem({super.key});
 
@@ -24,4 +24,4 @@ class _NewWorkItemState extends State<NewWorkItem> {
 
 
 }
-
+*/
