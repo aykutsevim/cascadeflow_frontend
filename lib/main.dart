@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:shopping_list/widgets/grocery_list.dart';
+import 'package:shopping_list/widgets/login.dart';
 import 'package:shopping_list/widgets/login_screen.dart';
 import 'package:shopping_list/widgets/work_item_list.dart';
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: const Color.fromARGB(255, 50, 58, 60),
       ),
-      home: const LoginScreen(),
+      home: const Login(),
     );
   }
 }
