@@ -1,5 +1,5 @@
-name: shopping_list
-description: A new Flutter project.
+name: cascade_flow
+description: Dynamic process management application
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -38,6 +38,7 @@ dependencies:
   http: ^0.13.5
   json_annotation: ^4.9.0
   flutter_svg: ^2.0.9
+  shared_preferences: ^2.0.5
 
 dev_dependencies:
   flutter_test:

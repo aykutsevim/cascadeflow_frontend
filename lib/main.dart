@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:shopping_list/widgets/grocery_list.dart';
-import 'package:shopping_list/widgets/login.dart';
-import 'package:shopping_list/widgets/login_screen.dart';
-import 'package:shopping_list/widgets/work_item_list.dart';
+
+import 'package:cascade_flow/widgets/login_form.dart';
+
+
+import 'core/web_service.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  WebService.init();
+
   runApp(const MyApp());
 }
 
@@ -25,7 +29,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: const Color.fromARGB(255, 50, 58, 60),
       ),
-      home: const Login(),
+      home: LoginForm(),
     );
   }
 }

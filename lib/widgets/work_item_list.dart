@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:shopping_list/models/work_item.dart';
-import 'package:shopping_list/widgets/icons/task_icon.dart';
+import 'package:cascade_flow/models/work_item.dart';
+import 'package:cascade_flow/widgets/icons/task_icon.dart';
 
 class WorkItemList extends StatefulWidget {
   const WorkItemList({super.key});

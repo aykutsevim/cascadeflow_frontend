@@ -2,11 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shopping_list/data/categories.dart';
 
-import 'package:shopping_list/models/grocery_item.dart';
-import 'package:shopping_list/models/weather_item.dart';
-import 'package:shopping_list/widgets/new_item.dart';
+import 'package:cascade_flow/models/weather_item.dart';
+import 'package:cascade_flow/widgets/new_item.dart';
 
 class GroceryList extends StatefulWidget {
   const GroceryList({super.key});

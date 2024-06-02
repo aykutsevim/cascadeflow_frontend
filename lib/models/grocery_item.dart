@@ -1,4 +1,4 @@
-import 'package:shopping_list/models/category.dart';
+import 'package:cascade_flow/models/category.dart';
 
 class GroceryItem {
   const GroceryItem({
