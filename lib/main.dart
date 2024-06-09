@@ -10,7 +10,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   WebService.init();
 
-  runApp(ProviderScope(
+  runApp(const ProviderScope(
     child: MyApp(),
   ));
 }
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Groceries',
+      title: 'CascadeFlow',
       theme: ThemeData.dark().copyWith(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromARGB(255, 147, 229, 250),
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: const Color.fromARGB(255, 50, 58, 60),
       ),
-      home: LoginForm(),
+      home: const LoginForm(),
     );
   }
 }

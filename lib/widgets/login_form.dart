@@ -1,11 +1,10 @@
 import 'package:cascade_flow/core/web_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:cascade_flow/widgets/work_item_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:cascade_flow/providers/auth_provider.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
@@ -18,39 +17,19 @@ class _LoginFormState extends ConsumerState<LoginForm> {
   final _formKey = GlobalKey<FormState>();
 
   String _username = '';
-  String _password = '';
+  String _password = '';  
 
-  Future<void> _login() async {
+  void _login(WidgetRef ref) async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-  
-      var response = await WebService.post('Auth/login', body: {'username': _username, 'password': _password});
-      if (response.statusCode == 200) {
-        var data = jsonDecode(response.body);
-        await WebService.storeToken(data['token']);
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text('Login Successful! Welcome ${data['username']}')),
-        );
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const WorkItemList()),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(
-                  'Failed to login with status code: ${response.statusCode}')),
-        );
-      }
-
+      ref.read(authProvider.notifier).login(_username, _password);
     }
   }
 
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
 
     return Scaffold(

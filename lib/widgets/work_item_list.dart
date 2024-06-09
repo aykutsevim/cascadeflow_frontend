@@ -27,8 +27,6 @@ class _WorkItemListState extends State<WorkItemList> {
   Future<void> fetchWorkItems() async {
     final url = Uri.https('localhost:3001', 'api/workitem');
 
-    final response = await http.get(url);
-
     try {
       final response = await http.get(url);
 

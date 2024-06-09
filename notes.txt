@@ -1,5 +1,13 @@
 Disable CORS:
 https://stackoverflow.com/questions/65630743/how-to-solve-flutter-web-api-cors-error-only-with-dart-code
 
+      // Since we are using a temp profile, disable features that slow the
+      // Chrome launch.
+      '--disable-extensions',
+      '--disable-web-security',
+      '--disable-popup-blocking',
+      '--bwsi',
+      '--no-first-run',
+
 Running build runner:
 dart run build_runner build --delete-conflicting-outputs

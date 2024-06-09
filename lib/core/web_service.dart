@@ -23,6 +23,18 @@ class WebService {
     );
   }
 
+  static Future<http.Response> get(String endpoint) async {
+    var uri = Uri.parse(_baseUrl + endpoint);
+    String? token = _prefs?.getString('jwt_token');
+    return http.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        if (token != null) 'Authorization': 'Bearer $token',
+      },
+    );
+  }
+
   static Future<void> storeToken(String token) async {
     await _prefs?.setString('jwt_token', token);
   }
