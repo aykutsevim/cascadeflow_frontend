@@ -6,11 +6,15 @@ import 'dart:convert';
 class AuthState {
   final bool isAuthenticated;
   final bool isLoading;
+  final String? username;
+  final String? password;
   final String? error;
 
   AuthState({
     required this.isAuthenticated,
     required this.isLoading,
+    this.username = '',
+    this.password = '',
     this.error,
   });
 
@@ -18,10 +22,14 @@ class AuthState {
     bool? isAuthenticated,
     bool? isLoading,
     String? error,
+    String? username,
+    String? password,
   }) {
     return AuthState(
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
       isLoading: isLoading ?? this.isLoading,
+      username: username ?? this.username,
+      password: password ?? this.password,
       error: error ?? this.error,
     );
   }
@@ -42,11 +50,19 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(error: error);
   }
 
-  Future<void> login(String email, String password) async {
+  void setUsername(String username) {
+    state = state.copyWith(username: username);
+  }
+
+  void setPassword(String password) {
+    state = state.copyWith(password: password);
+  }
+
+  Future<void> login() async {
     try {
       state = state.copyWith(isLoading: true);
 
-      var response = await WebService.post('Auth/login', body: {'username': email, 'password': password});
+      var response = await WebService.post('Auth/login', body: {'username': state.username, 'password': state.password});
 
       if (response.statusCode >= 400) {
         state = state.copyWith(error: 'Failed to login. Please try again later.');
@@ -56,6 +72,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
       if (data['token'] != null) {
         state = state.copyWith(isAuthenticated: true);
+
+        await WebService.storeToken(data['token']);
       } else {
         state = state.copyWith(error: 'Invalid email or password.');
       }

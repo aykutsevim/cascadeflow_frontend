@@ -8,6 +8,7 @@ class ProjectState {
   final bool isLoading;
   final String? error;
 
+
   ProjectState({
     required this.projects,
     required this.isLoading,
@@ -51,7 +52,7 @@ class ProjectNotifier extends StateNotifier<ProjectState> {
     try {
       state = state.copyWith(isLoading: true);
 
-      var response = await WebService.post('Project/tenant');
+      var response = await WebService.get('Project/tenant');
 
       if (response.statusCode >= 400) {
         state = state.copyWith(error: 'Failed to fetch data. Please try again later.');

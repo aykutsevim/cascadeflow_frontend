@@ -1,42 +1,40 @@
-import 'package:cascade_flow/core/web_service.dart';
+import 'package:cascade_flow/providers/project_provider.dart';
+import 'package:cascade_flow/widgets/project_list.dart';
 import 'package:flutter/material.dart';
 import 'package:cascade_flow/widgets/work_item_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'dart:convert';
 import 'package:cascade_flow/providers/auth_provider.dart';
 
-class LoginForm extends ConsumerStatefulWidget {
+final GlobalKey<FormState> appFormKey = GlobalKey<FormState>();
+
+class LoginForm extends ConsumerWidget {
   const LoginForm({super.key});
 
   @override
-  ConsumerState<LoginForm> createState() => _LoginFormState();
-}
-
-class _LoginFormState extends ConsumerState<LoginForm> {
-  final _formKey = GlobalKey<FormState>();
-
-  String _username = '';
-  String _password = '';  
-
-  void _login(WidgetRef ref) async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-
-      ref.read(authProvider.notifier).login(_username, _password);
-    }
-  }
-
-
-  @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+    final state = ref.watch(authProvider);
+
+    // Checking for state changes and navigating accordingly
+    if (state.isAuthenticated == true) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(projectProvider.notifier).fetchProjects();
+     
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const ProjectList()),
+        );
+      });
+    }
 
 
     return Scaffold(
         backgroundColor: Colors.white,
         body: Center(
             child: Form(
-          key: _formKey,
+          key: appFormKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -53,6 +51,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               SizedBox(
                 width: 250,
                 child: TextFormField(
+                  initialValue: "username",
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Username',
@@ -63,13 +62,14 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                     }
                     return null;
                   },
-                  onSaved: (value) => _username = value!,
+                  onChanged: (value) => ref.read(authProvider.notifier).setUsername(value),
                 ),
               ),
               const SizedBox(height: 10),
               SizedBox(
                 width: 250,
                 child: TextFormField(
+                  initialValue: "password",
                   obscureText: true,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -81,12 +81,18 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                     }
                     return null;
                   },
-                  onSaved: (value) => _password = value!,
+                  onChanged: (value) => ref.read(authProvider.notifier).setPassword(value),
                 ),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _login,
+                onPressed: () {
+                      if (appFormKey.currentState!.validate()) {
+                        appFormKey.currentState!.save();
+
+                        ref.read(authProvider.notifier).login();
+                      }
+                },
                 child: const Text('Login'),
               ),
             ],
@@ -94,3 +100,5 @@ class _LoginFormState extends ConsumerState<LoginForm> {
         )));
   }
 }
+
+
