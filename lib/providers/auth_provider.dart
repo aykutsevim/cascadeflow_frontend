@@ -13,8 +13,8 @@ class AuthState {
   AuthState({
     required this.isAuthenticated,
     required this.isLoading,
-    this.username = '',
-    this.password = '',
+    this.username = 'username',
+    this.password = 'password',
     this.error,
   });
 

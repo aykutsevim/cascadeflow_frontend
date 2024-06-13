@@ -11,7 +11,7 @@ class Project {
   final String projectName;
 
   @JsonKey(name: 'tenantRef')
-  final int tenantRef;
+  final String tenantRef;
 
   Project({
     required this.id,
