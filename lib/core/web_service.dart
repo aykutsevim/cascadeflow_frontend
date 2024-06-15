@@ -42,4 +42,6 @@ class WebService {
   static Future<void> clearToken() async {
     await _prefs?.remove('jwt_token');
   }
+
+
 }

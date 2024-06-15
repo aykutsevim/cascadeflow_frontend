@@ -9,6 +9,7 @@ class AuthState {
   final String? username;
   final String? password;
   final String? error;
+  final String? avatarHashable;
 
   AuthState({
     required this.isAuthenticated,
@@ -16,6 +17,7 @@ class AuthState {
     this.username = 'username',
     this.password = 'password',
     this.error,
+    this.avatarHashable,
   });
 
   AuthState copyWith({
@@ -24,6 +26,7 @@ class AuthState {
     String? error,
     String? username,
     String? password,
+    String? avatarHashable,
   }) {
     return AuthState(
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
@@ -31,6 +34,7 @@ class AuthState {
       username: username ?? this.username,
       password: password ?? this.password,
       error: error ?? this.error,
+      avatarHashable: avatarHashable ?? this.avatarHashable,
     );
   }
 }
@@ -71,7 +75,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       var data = jsonDecode(response.body);
 
       if (data['token'] != null) {
-        state = state.copyWith(isAuthenticated: true);
+        state = state.copyWith(isAuthenticated: true, avatarHashable: data['avatarHashable']);
 
         await WebService.storeToken(data['token']);
       } else {
