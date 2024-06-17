@@ -1,7 +1,6 @@
 import 'package:cascade_flow/providers/project_provider.dart';
 import 'package:cascade_flow/widgets/project_list.dart';
 import 'package:flutter/material.dart';
-import 'package:cascade_flow/widgets/work_item_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cascade_flow/providers/auth_provider.dart';

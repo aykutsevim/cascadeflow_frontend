@@ -1,4 +1,3 @@
-import 'package:cascade_flow/models/project.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cascade_flow/core/web_service.dart';
 import 'dart:convert';
