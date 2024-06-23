@@ -1,8 +1,11 @@
-import 'package:cascade_flow/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cascade_flow/providers/project_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:cascade_flow/providers/project_provider.dart';
+import 'package:cascade_flow/providers/work_item_provider.dart';
+import 'package:cascade_flow/widgets/base_page.dart';
+import 'package:cascade_flow/widgets/work_item_list.dart';
 
 final GlobalKey<FormState> appFormKey = GlobalKey<FormState>();
 
@@ -12,27 +15,23 @@ class ProjectList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(projectProvider);
-    final authState = ref.watch(authProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                SvgPicture.network(
-                    'https://api.multiavatar.com/${authState.avatarHashable}.svg',
-                    height: 48,
-                    width: 48),
-                const SizedBox(
-                  width: 16,
-                ),
-                Text(authState.username ?? "<username>"),
-              ],
-            )),
-        toolbarHeight: 160,
-      ),
-      body: state.isLoading
+    // Checking for state changes and navigating accordingly
+    if (state.selectedProject != null) {
+      
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(workItemProvider.notifier).fetchWorkItems();
+     
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const WorkItemList()),
+        );
+      });
+    }
+
+    return BasePage(
+      title: 'Projects',
+      child: state.isLoading
           ? const Center(child: CircularProgressIndicator())
           : state.error != null
               ? Center(child: Text(state.error!))
@@ -89,11 +88,11 @@ class ProjectList extends ConsumerWidget {
                                             ),
                                           ),
                                           IconButton(
-                                            icon: const Icon(Icons.delete),
+                                            icon: const Icon(Icons.details),
                                             onPressed: () {
                                               ref
                                                   .read(projectProvider.notifier)
-                                                  .removeProject(project);
+                                                  .setSelectedProject(project);
                                             },
                                           ),
                                         ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:cascade_flow/widgets/login_form.dart';
 
@@ -11,12 +10,12 @@ void main() {
   WebService.init();
 
   runApp(const ProviderScope(
-    child: MyApp(),
+    child: CascadeFlowApp(),
   ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CascadeFlowApp extends StatelessWidget {
+  const CascadeFlowApp({super.key});
 
   // This widget is the root of your application.
   @override

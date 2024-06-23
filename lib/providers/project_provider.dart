@@ -7,23 +7,27 @@ class ProjectState {
   final List<Project> projects;
   final bool isLoading;
   final String? error;
+  final Project? selectedProject;
 
 
   ProjectState({
     required this.projects,
     required this.isLoading,
     this.error,
+    this.selectedProject,
   });
 
   ProjectState copyWith({
     List<Project>? projects,
     bool? isLoading,
     String? error,
+    Project? selectedProject,
   }) {
     return ProjectState(
       projects: projects ?? this.projects,
       isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
+      selectedProject: selectedProject ?? this.selectedProject,
     );
   }
 }
@@ -47,6 +51,9 @@ class ProjectNotifier extends StateNotifier<ProjectState> {
     state = state.copyWith(projects: projects);
   }
 
+  void setSelectedProject(Project project) {
+    state = state.copyWith(selectedProject: project);
+  }
   
   Future<void> fetchProjects() async {
     try {

@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:uuid/uuid.dart';
+
 
 class WebService {
   static const String _baseUrl = 'https://localhost:3001/api/';
@@ -43,5 +45,29 @@ class WebService {
     await _prefs?.remove('jwt_token');
   }
 
+  static String formatCode(int number) {
+    if (number < 0 || number >= 67600) {
+      throw ArgumentError("Number must be between 0 and 67599.");
+    }
 
+    int alphaPart = number ~/ 100; // Get the part for the alphabetic code.
+    int numericPart = number % 100; // Get the numeric part.
+
+    // Convert the number to a two-letter code (base-26).
+    String firstLetter = String.fromCharCode((alphaPart ~/ 26) + 65); // 65 is the ASCII value for 'A'.
+    String secondLetter = String.fromCharCode((alphaPart % 26) + 65);
+
+    // Format the numeric part to ensure it is two digits.
+    String numericCode = numericPart.toString().padLeft(2, '0');
+
+    return firstLetter + secondLetter + numericCode;
+  }
+
+  static String generateGuid() {
+    // Create uuid object
+    var uuid = const Uuid();
+
+    // Generate a v5 (namespace-name-sha1-based) id
+    return uuid.v5(Uuid.NAMESPACE_URL, _baseUrl).toString(); 
+  }
 }

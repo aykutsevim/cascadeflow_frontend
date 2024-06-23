@@ -31,6 +31,12 @@ class WorkItem {
   @JsonKey(name: 'priority')
   final int priority;
 
+  @JsonKey(name: 'code')
+  final int code;
+
+  @JsonKey(name: 'id')
+  final String? workItemRef;
+
   WorkItem({
     required this.id,
     required this.workItemTypeRef,
@@ -41,6 +47,8 @@ class WorkItem {
     required this.title,
     required this.description,
     required this.priority,
+    required this.code,
+    this.workItemRef,
   });
 
   factory WorkItem.fromJson(Map<String, dynamic> json) =>
