@@ -34,8 +34,11 @@ class WorkItem {
   @JsonKey(name: 'code')
   final int code;
 
-  @JsonKey(name: 'id')
+  @JsonKey(name: 'workItemRef')
   final String? workItemRef;
+
+  @JsonKey(name: 'hasChildren')
+  bool hasChildren = false;
 
   WorkItem({
     required this.id,
@@ -49,6 +52,7 @@ class WorkItem {
     required this.priority,
     required this.code,
     this.workItemRef,
+    this.hasChildren = false,
   });
 
   factory WorkItem.fromJson(Map<String, dynamic> json) =>

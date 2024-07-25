@@ -17,6 +17,8 @@ WorkItem _$WorkItemFromJson(Map<String, dynamic> json) => WorkItem(
       description: json['description'] as String?,
       priority: (json['priority'] as num).toInt(),
       code: (json['code'] as num).toInt(),
+      workItemRef: json['workItemRef'] as String?,
+      hasChildren: json['hasChildren'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$WorkItemToJson(WorkItem instance) => <String, dynamic>{
@@ -30,4 +32,6 @@ Map<String, dynamic> _$WorkItemToJson(WorkItem instance) => <String, dynamic>{
       'description': instance.description,
       'priority': instance.priority,
       'code': instance.code,
+      'workItemRef': instance.workItemRef,
+      'hasChildren': instance.hasChildren,
     };
