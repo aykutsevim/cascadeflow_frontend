@@ -37,9 +37,9 @@ class LoginForm extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset('assets/logo_vector_drawing.svg',
-                  height: 80, width: 80),
-              const SizedBox(height: 15),
+              SvgPicture.asset('assets/logo_vector_2_plain.svg',
+                  height: 120, width: 120),
+              const SizedBox(height: 24),
               const Text("CascadeFlow",
                   style: TextStyle(
                       color: Colors.black54,
@@ -94,6 +94,7 @@ class LoginForm extends ConsumerWidget {
                 },
                 child: const Text('Login'),
               ),
+              const SizedBox(height: 240),
             ],
           ),
         )));
