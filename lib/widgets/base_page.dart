@@ -42,29 +42,61 @@ class BasePage extends ConsumerWidget {
         automaticallyImplyLeading: true,
         backgroundColor: const Color(0xfff0f0f0),
         centerTitle: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 6.0, top: 5.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                title,
-                style: const TextStyle(
-                    color: Colors.black87,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 23.0),
-              ),
-              Text(
-                authState.username ?? "<username>",
-                style: const TextStyle(color: Colors.grey, fontSize: 16.0),
-              ),
-            ],
-          ),
+        toolbarHeight: 120,
+        title: Column(
+          children: [
+            const SizedBox(height: 40),
+            Padding(
+              padding: const EdgeInsets.only(left: 6.0, top: 5.0),
+              child: 
+                  Row(
+                    children: [
+                      SvgPicture.asset('assets/logo_vector_2_plain.svg',
+                          height: 48, width: 48),
+                      const SizedBox(width: 12),
+                      const Text("CascadeFlow",
+                          style: TextStyle(
+                              color: Colors.black54,
+                              fontFamily: "JosefinSans",
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal)),
+                      const SizedBox(width: 12),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            title,
+                            style: const TextStyle(
+                                color: Colors.black87,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 23.0),
+                          ),
+                          Text(
+                            authState.username ?? "<username>",
+                            style: const TextStyle(color: Colors.grey, fontSize: 16.0),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+            ),
+            const SizedBox(height: 40),
+          ],
         ),
       ),
-      body: child,
+      body: Container(
+        // rounded corners
+        decoration: const BoxDecoration(
+          color:  Color(0xffe0e0e0),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        child: child
+        ),
     );
   }
 }
