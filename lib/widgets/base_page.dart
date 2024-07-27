@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class BasePage extends ConsumerWidget {
   final Widget child;
-  final String title;
+  final Widget title;
 
   const BasePage({super.key, required this.child, required this.title});
 
@@ -40,51 +40,31 @@ class BasePage extends ConsumerWidget {
       appBar: AppBar(
         elevation: 0.0,
         automaticallyImplyLeading: true,
-        backgroundColor: const Color(0xfff0f0f0),
+        backgroundColor: const Color(0xffffffff),
         centerTitle: false,
-        toolbarHeight: 120,
+        toolbarHeight: 100,
         title: Column(
           children: [
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(left: 6.0, top: 5.0),
               child: 
                   Row(
                     children: [
-                      SvgPicture.asset('assets/logo_vector_2_plain.svg',
-                          height: 48, width: 48),
-                      const SizedBox(width: 12),
-                      const Text("CascadeFlow",
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontFamily: "JosefinSans",
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal)),
-                      const SizedBox(width: 12),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            title,
-                            style: const TextStyle(
-                                color: Colors.black87,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 23.0),
-                          ),
-                          Text(
-                            authState.username ?? "<username>",
-                            style: const TextStyle(color: Colors.grey, fontSize: 16.0),
-                          ),
-                        ],
-                      ),
+                      title,
+                      const Spacer(),
+                      SvgPicture.network(
+                        'https://api.multiavatar.com/${authState.avatarHashable}.svg',
+                        height: 48,
+                        width: 48),
+                        const SizedBox(width: 20)
                     ],
                   ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
           ],
         ),
+        
       ),
       body: Container(
         // rounded corners

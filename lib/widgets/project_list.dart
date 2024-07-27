@@ -30,7 +30,18 @@ class ProjectList extends ConsumerWidget {
     }
 
     return BasePage(
-      title: 'Projects',
+      title: Row(children: [
+        SvgPicture.asset('assets/logo_vector_2_plain.svg',
+                          height: 42, width: 42),
+        const SizedBox(width: 12),
+        const Text("CascadeFlow",
+            style: TextStyle(
+                color: Colors.black54,
+                fontFamily: "JosefinSans",
+                fontSize: 20,
+                fontWeight: FontWeight.bold)),
+        const SizedBox(width: 12),
+      ],),
       child: state.isLoading
           ? const Center(child: CircularProgressIndicator())
           : state.error != null
@@ -42,9 +53,13 @@ class ProjectList extends ConsumerWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: const EdgeInsets.only(left: 20.0, top: 16.0, bottom: 16.0),
-                    child: Text('Projects', style: Theme.of(context).textTheme.headlineMedium),
+                    child: Text('Projects', style: TextStyle(
+                        color: Colors.black54,
+                        fontFamily: "Jaldi",
+                        fontSize: 24,
+                        fontWeight: FontWeight.normal)),
                   ),
                   Expanded(
                     child: ListView.builder(
@@ -77,18 +92,23 @@ class ProjectList extends ConsumerWidget {
                                               'https://localhost:3001/api/Project/identicon/${project.id}',
                                               height: 40,
                                               width: 40),
+                                          const SizedBox(width: 14),
                                           Expanded(
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text(project.projectName),
-                                                Text(project.projectName),
+                                                Text(project.projectName, style: const TextStyle(
+                                                  color: Colors.black54,
+                                                  fontFamily: "Jaldi",
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.normal)),
+                                                //Text(project.projectName),
                                               ],
                                             ),
                                           ),
                                           IconButton(
-                                            icon: const Icon(Icons.details),
+                                            icon: const Icon(Icons.chevron_right),
                                             onPressed: () {
                                               ref
                                                   .read(projectProvider.notifier)

@@ -26,9 +26,9 @@ class CascadeFlowApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromARGB(255, 147, 229, 250),
           brightness: Brightness.dark,
-          surface: const Color.fromARGB(255, 245, 245, 245),
+          surface: const Color.fromARGB(255, 255, 255, 255),
         ),
-        scaffoldBackgroundColor: const Color.fromARGB(255, 245, 245, 245),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
       home: const LoginForm(),
     );

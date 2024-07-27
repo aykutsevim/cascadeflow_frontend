@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:cascade_flow/models/work_item.dart';
 import 'package:cascade_flow/widgets/icons/task_icon.dart';
@@ -49,7 +50,27 @@ class WorkItemList extends ConsumerWidget {
     }
 
     return BasePage(
-      title: 'Work Items',
+      title: Row(
+        children: [
+          projectState.selectedProject == null
+              ? const SizedBox()
+              :
+          SvgPicture.network(
+            'https://localhost:3001/api/Project/identicon/${projectState.selectedProject?.id}',
+            height: 40,
+            width: 40),
+            SizedBox(width: 20),
+          Text(
+            projectState.selectedProject == null ? "" : projectState.selectedProject?.projectName ?? "",
+            style: const TextStyle(
+                color: Colors.black54,
+                fontFamily: 'Jaldi',
+                fontWeight: FontWeight.normal,
+                fontSize: 24.0),
+          ),
+
+        ],
+      ),
       child: content,
     );
   }

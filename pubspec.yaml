@@ -70,6 +70,11 @@ flutter:
         - asset: fonts/JosefinSans-Thin.ttf
         - asset: fonts/JosefinSans-Regular.ttf
           style: italic
+    - family: Jaldi
+      fonts:
+        - asset: fonts/Jaldi-Bold.ttf
+        - asset: fonts/Jaldi-Regular.ttf
+          style: italic
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
