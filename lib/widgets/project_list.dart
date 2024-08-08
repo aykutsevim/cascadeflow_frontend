@@ -1,3 +1,4 @@
+import 'package:cascade_flow/core/web_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -89,7 +90,7 @@ class ProjectList extends ConsumerWidget {
                                       child: Row(
                                         children: [
                                           SvgPicture.network(
-                                              'https://localhost:3001/api/Project/identicon/${project.id}',
+                                              '${WebService.baseIdenticonUrl}/${project.id}',
                                               height: 40,
                                               width: 40),
                                           const SizedBox(width: 14),

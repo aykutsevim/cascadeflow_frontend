@@ -6,11 +6,16 @@ import 'package:uuid/uuid.dart';
 
 class WebService {
   static const String _baseUrl = 'https://localhost:3001/api/';
+  static const String _baseIdenticonUrl = 'https://localhost:3001/api/Project/identicon';
+
   static SharedPreferences? _prefs;
 
   static Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
   }
+
+  static String get baseUrl => _baseUrl;
+  static String get baseIdenticonUrl => _baseIdenticonUrl;
 
   static Future<http.Response> post(String endpoint, {Map<String, dynamic>? body}) async {
     var uri = Uri.parse(_baseUrl + endpoint);
