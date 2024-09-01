@@ -16,3 +16,11 @@ https://stackoverflow.com/questions/65630743/how-to-solve-flutter-web-api-cors-e
 
 Running build runner:
 dart run build_runner build --delete-conflicting-outputs
+
+flutter pub cache clean
+flutter pub upgrade win32
+flutter channel stable
+flutter pub get
+flutter pub outdated
+flutter pub upgrade --major-versions
+flutter run

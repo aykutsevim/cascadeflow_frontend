@@ -81,7 +81,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         state = state.copyWith(error: 'Invalid email or password.');
       }
     } catch (e) {
-      state = state.copyWith(error: 'Failed to login. Please try again later.');
+      state = state.copyWith(error: 'Failed to login. Please try again later.$e');
     } finally {
       state = state.copyWith(isLoading: false);
     }

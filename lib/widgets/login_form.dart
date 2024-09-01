@@ -95,6 +95,8 @@ class LoginForm extends ConsumerWidget {
                 child: const Text('Login'),
               ),
               const SizedBox(height: 240),
+              Text(state.error ?? "",
+              style: const TextStyle(color: Colors.red, fontSize: 16),)
             ],
           ),
         )));

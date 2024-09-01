@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cascade_flow/core/custom_http_overrides.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,6 +11,8 @@ import 'core/web_service.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   WebService.init();
+
+  HttpOverrides.global = CustomHttpOverrides();
 
   runApp(const ProviderScope(
     child: CascadeFlowApp(),
